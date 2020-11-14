@@ -12,8 +12,6 @@
 /git-revisions.txt
 /logs/
 /plugins/
-/rebar.config
-/rebar.lock
 /test/ct.cover.spec
 /xrefr
 
@@ -23,3 +21,7 @@
 /include/rabbit_framing.hrl
 /src/rabbit_framing_amqp_0_8.erl
 /src/rabbit_framing_amqp_0_9_1.erl
+
+# rebar
+_build/
+/rebar.lock
