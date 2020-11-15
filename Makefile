@@ -16,7 +16,10 @@ define PROJECT_APP_EXTRA_KEYS
 endef
 
 LOCAL_DEPS = compiler syntax_tools xmerl
-DEPS = lager jsx ranch recon
+# This branch is intended for rebar.
+# However, we still need erlang.mk to fetch rabbitmq_codegen
+# which is defined in development.pre.mk
+# DEPS = lager jsx ranch recon
 
 # FIXME: Use erlang.mk patched for RabbitMQ, while waiting for PRs to be
 # reviewed and merged.
@@ -45,5 +48,8 @@ WITHOUT = plugins/proper
 
 include mk/rabbitmq-components.mk
 include erlang.mk
+
+.PHONY: code-gen
+code-gen: fetch-deps $(EXTRA_SOURCES)
 
 -include development.post.mk
