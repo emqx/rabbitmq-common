@@ -1,6 +1,9 @@
 PROJECT = rabbit_common
 PROJECT_DESCRIPTION = Modules shared by rabbitmq-server and rabbitmq-erlang-client
 
+## must define it here otherwise the rabbitmq-components.mk will resolve it to (no branch) when tag is used
+current_rmq_ref = "$(shell git describe --tag | cut -d'-' -f1)"
+
 define PROJECT_APP_EXTRA_KEYS
 %% Hex.pm package informations.
 	{licenses, ["MPL 1.1"]},
