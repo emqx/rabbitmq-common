@@ -52,6 +52,12 @@ WITHOUT = plugins/proper
 include mk/rabbitmq-components.mk
 include erlang.mk
 
+clean:: rebar-clean
+
+.PHONY: rebar-clean
+rebar-clean:
+	rm -rf _build
+
 .PHONY: code-gen
 code-gen: fetch-deps $(EXTRA_SOURCES)
 
