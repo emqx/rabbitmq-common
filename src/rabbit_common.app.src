@@ -3,7 +3,7 @@
 	{vsn, "3.7.14"},
 	{modules, []},
 	{registered, []},
-	{applications, [kernel,stdlib,compiler,syntax_tools,xmerl,lager,jsx,ranch,recon]},
+	{applications, [kernel,stdlib,compiler,syntax_tools,xmerl,jsx,ranch,recon]},
 	{env, []},
 	%% Hex.pm package informations.
 	{licenses, ["MPL 1.1"]},

@@ -28,6 +28,8 @@
          none/1, none/2, none/3]).
 -export([make_internal_sink_name/1]).
 
+-type log_level() :: none | debug | info | notice | warning | error | critical | alert | emergency.
+
 -include("rabbit_log.hrl").
 %%----------------------------------------------------------------------------
 
@@ -63,16 +65,16 @@
 
 %%----------------------------------------------------------------------------
 
--spec log(category(), lager:log_level(), string()) -> 'ok'.
+-spec log(category(), log_level(), string()) -> 'ok'.
 log(Category, Level, Fmt) -> log(Category, Level, Fmt, []).
 
--spec log(category(), lager:log_level(), string(), [any()]) -> 'ok'.
+-spec log(category(), log_level(), string(), [any()]) -> 'ok'.
 log(Category, Level, Fmt, Args) when is_list(Args) ->
     Sink = case Category of
         default -> ?LAGER_SINK;
         _       -> make_internal_sink_name(Category)
     end,
-    lager:log(Sink, Level, self(), Fmt, Args).
+    log(Sink, Level, self(), Fmt, Args).
 
 make_internal_sink_name(connection) -> rabbit_log_connection_lager_event;
 make_internal_sink_name(channel)    -> rabbit_log_channel_lager_event;
@@ -87,44 +89,47 @@ make_internal_sink_name(Category)   -> erlang:error({unknown_category, Category}
 debug(Format) -> debug(Format, []).
 debug(Format, Args) -> debug(self(), Format, Args).
 debug(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, debug, Metadata, Format, Args).
+    log(?LAGER_SINK, debug, Metadata, Format, Args).
 
 info(Format) -> info(Format, []).
 info(Format, Args) -> info(self(), Format, Args).
 info(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, info, Metadata, Format, Args).
+    log(?LAGER_SINK, info, Metadata, Format, Args).
 
 notice(Format) -> notice(Format, []).
 notice(Format, Args) -> notice(self(), Format, Args).
 notice(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, notice, Metadata, Format, Args).
+    log(?LAGER_SINK, notice, Metadata, Format, Args).
 
 warning(Format) -> warning(Format, []).
 warning(Format, Args) -> warning(self(), Format, Args).
 warning(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, warning, Metadata, Format, Args).
+    log(?LAGER_SINK, warning, Metadata, Format, Args).
 
 error(Format) -> ?MODULE:error(Format, []).
 error(Format, Args) -> ?MODULE:error(self(), Format, Args).
 error(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, error, Metadata, Format, Args).
+    log(?LAGER_SINK, error, Metadata, Format, Args).
 
 critical(Format) -> critical(Format, []).
 critical(Format, Args) -> critical(self(), Format, Args).
 critical(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, critical, Metadata, Format, Args).
+    log(?LAGER_SINK, critical, Metadata, Format, Args).
 
 alert(Format) -> alert(Format, []).
 alert(Format, Args) -> alert(self(), Format, Args).
 alert(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, alert, Metadata, Format, Args).
+    log(?LAGER_SINK, alert, Metadata, Format, Args).
 
 emergency(Format) -> emergency(Format, []).
 emergency(Format, Args) -> emergency(self(), Format, Args).
 emergency(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, emergency, Metadata, Format, Args).
+    log(?LAGER_SINK, emergency, Metadata, Format, Args).
 
 none(Format) -> none(Format, []).
 none(Format, Args) -> none(self(), Format, Args).
 none(Metadata, Format, Args) ->
-    lager:log(?LAGER_SINK, none, Metadata, Format, Args).
+    log(?LAGER_SINK, none, Metadata, Format, Args).
+
+log(_SINK, Level, Metadata, Format, Args) ->
+    logger:log(Level, Format, Args, Metadata).
