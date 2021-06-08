@@ -1,9 +1,9 @@
 {application, 'rabbit_common', [
 	{description, "Modules shared by rabbitmq-server and rabbitmq-erlang-client"},
-	{vsn, "3.7.14"},
+	{vsn, "3.7.14.1"},
 	{modules, []},
 	{registered, []},
-	{applications, [kernel,stdlib,compiler,syntax_tools,xmerl,lager,jsx,ranch,recon]},
+	{applications, [kernel,stdlib,compiler,syntax_tools,xmerl,jsx,ranch,recon]},
 	{env, []},
 	%% Hex.pm package informations.
 	{licenses, ["MPL 1.1"]},
